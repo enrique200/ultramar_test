@@ -36,6 +36,7 @@ This document outlines the technical solutions and decisions made during the dev
 ## Details
 
 I have added date_created and date_update fields in the models
+I add select ports in form add and edit bookings
 
 ## Conclusion
 
