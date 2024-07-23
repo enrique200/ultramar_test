@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for vehicle in booking.vehicles.all %}
+  <p>{{ vehicle.make }} {{ vehicle.model }} - <a href="{% url 'disassociate_vehicle' booking.id vehicle.id %}">Disassociate</a></p>
+{% endfor %}
+
+{% for vehicle in other_vehicles %}
+  <p>{{ vehicle.make }} {{ vehicle.model }} - <a href="{% url 'associate_vehicle' booking.id vehicle.id %}">Associate</a></p>
+{% endfor %}
+{% endblock %}

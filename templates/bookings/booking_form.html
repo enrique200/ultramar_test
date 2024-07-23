@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2>{% if object %}Edit Booking{% else %}New Booking{% endif %}</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+            <div class="form-text">{{ field.help_text }}</div>
+            {% endif %}
+            {% for error in field.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{% url 'booking_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+    <div class="card mt-4">
+    <div class="card-body">
+        <h3 class="card-title">Associated Vehicles</h3>
+        <div class="list-group">
+            {% for vehicle in booking.vehicles.all %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ vehicle.make }} {{ vehicle.model }}</span>
+                <a href="{% url 'disassociate_vehicle' booking.id vehicle.id %}" class="btn btn-danger btn-sm">Desasociar</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Opción para asociar nuevos vehículos -->
+        <h3 class="card-title mt-4">Associate New Vehicle</h3>
+        <div class="list-group">
+            {% for vehicle in other_vehicles %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ vehicle.make }} {{ vehicle.model }}</span>
+                <a href="{% url 'associate_vehicle' booking.id vehicle.id %}" class="btn btn-primary btn-sm">Asociar</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
